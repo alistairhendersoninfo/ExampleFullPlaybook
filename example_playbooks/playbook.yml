@@ -1,0 +1,36 @@
+---
+- name: Update and set the SFDC usits
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  vars_files:
+    - group_vars/all/secrets.yml
+
+  tasks:    
+
+    - name: Import the host key file
+      include_tasks: tasks/key-import.yml
+
+
+
+    - name: Disable firewall
+      include_tasks: tasks/ufw-disable.yml
+
+
+    - name: Set basic defualts settings
+      include_tasks: tasks/set-default-config.yml
+
+    - name: Update the packages
+      include_tasks: tasks/update-packages.yml
+
+    - name: Update / Install Google Chrome
+      include_tasks: tasks/install-googlechrome.yml
+
+
+    - name: Enable firewall
+      include_tasks: tasks/ufw-enable.yml
+
+
+    - name: End playbook execution
+      meta: end_play

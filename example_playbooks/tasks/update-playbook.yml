@@ -1,0 +1,69 @@
+---
+- name: Basic Update software
+  tasks:
+    - name: Remove Google Chrome APT source list
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/google-chrome.list
+        state: absent
+
+    - name: Remove APT lock files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/dpkg/lock
+        - /var/lib/dpkg/lock-frontend
+        - /var/lib/apt/lists/lock
+        - /var/cache/apt/archives/lock
+        - /var/cache/debconf/config.dat
+        - /var/cache/debconf/passwords.dat
+        - /var/cache/debconf/templates.dat
+
+    - name: Run dpkg configure to fix broken packages
+      ansible.builtin.command: dpkg --configure -a
+      become: yes
+      register: dpkg_configure_result
+        #changed_when: dpkg_configure_result.rc != 0
+      failed_when: "'dpkg: error' in dpkg_configure_result.stderr"  
+      ignore_errors: yes
+      
+
+    - name: Preconfigure GRUB to avoid interactive prompts
+      debconf:
+        name: "grub-efi-amd64"
+        question: "grub2/update_nvram"
+        value: "false"
+        vtype: "boolean"
+
+    - name: Update the apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Upgrade all packages
+      ansible.builtin.apt:
+        upgrade: dist
+        dpkg_options: 'force-confdef,force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: Ensure all packages are at the latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+        dpkg_options: 'force-confdef,force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+
+    - name: Clean up unneeded packages
+      ansible.builtin.apt:
+        autoremove: yes
+        autoclean: yes
+
+          #    - name: Allow SSH (port 22) from any source
+          #community.general.ufw:
+          #rule: allow
+          #port: "22"
+          #proto: tcp
+          #from_ip: any
+

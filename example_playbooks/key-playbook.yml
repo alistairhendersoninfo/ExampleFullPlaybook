@@ -1,0 +1,15 @@
+---
+- name: Import SSH keys
+  hosts: all
+  gather_facts: no  
+  become: yes
+
+  vars_files:
+    - group_vars/all/secrets.yml
+
+  tasks:
+    - name: Enable firewall
+      include_tasks: tasks/key-import.yml
+
+
+

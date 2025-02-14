@@ -1,0 +1,11 @@
+all:
+  hosts:
+    device1:
+      ansible_host:
+      hostname: 
+      ansible_user: rsadmin
+      ansible_password: "{{ ansible_password }}"
+      ansible_become_password: "{{ ansible_password }}"
+      ansible_become: true
+      ansible_become_method: sudo
+

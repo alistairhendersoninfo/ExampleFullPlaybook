@@ -1,0 +1,12 @@
+---
+- name: Scan SSH keys
+  command: "ssh-keyscan -H {{ hostname }}"
+  register: ssh_keys
+  changed_when: false
+
+    #- name: Add host keys to known_hosts
+    #known_hosts:
+    #path: "~/.ssh/known_hosts"
+    #name: "{{ hostname }}"
+    #key: "{{ ssh_keys.stdout }}"
+

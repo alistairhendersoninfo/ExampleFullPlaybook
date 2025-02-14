@@ -1,0 +1,9 @@
+[my_devices]
+device1 ansible_host=10.50.9.126 hostname=RSL-D5156 ansible_user=rsadmin ansible_password="{{ ansible_password }}" ansible_become_password="{{ ansible_password }}" ansible_become=True ansible_become_method=sudo
+
+device2 ansible_host=10.50.9.120 hostname=RSL-D5150 ansible_user=rsadmin ansible_password="{{ ansible_password }}" ansible_become_password="{{ ansible_password }}" ansible_become=True ansible_become_method=sudo
+
+
+device3 ansible_host=10.50.9.122 hostname=RSL-D5152 ansible_user=rsadmin ansible_password="{{ ansible_password }}" ansible_become_password="{{ ansible_password }}" ansible_become=True ansible_become_method=sudo
+
+device4 ansible_host=10.50.9.129 hostname=RSL-D4436 ansible_user=rsadmin ansible_password="{{ ansible_password }}" ansible_become_password="{{ ansible_password }}" ansible_become=True ansible_become_method=sudo

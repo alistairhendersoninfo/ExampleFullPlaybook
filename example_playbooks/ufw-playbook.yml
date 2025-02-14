@@ -1,0 +1,15 @@
+---
+- name: Update and set the SFDC usits
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  vars_files:
+    - group_vars/all/secrets.yml
+
+  tasks:
+    - name: Enable firewall
+      include_tasks: tasks/ufw-enable.yml
+
+
+

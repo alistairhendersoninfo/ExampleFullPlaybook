@@ -1,0 +1,9 @@
+---
+- name: 
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  vars_files:
+    - group_vars/all/secrets.yml
+

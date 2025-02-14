@@ -1,0 +1,24 @@
+---
+- name: Allow SSH before enabling UFW
+  ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+
+      #- name: Pause for reconnection after enabling UFW
+      #pause:
+      #seconds: 1
+
+      #- name: Wait for SSH to be available
+      #wait_for:
+      #host: "{{ ansible_hostname }}"
+      #port: 22
+      #delay: 1
+      #timeout: 30
+      #state: started
+
+
